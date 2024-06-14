@@ -2,11 +2,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import os
+from PIL import Image
 
 from Utils.components import get_details_card_div, display_history_battles, get_semi_ana_response, fillout_semi_ana_response
 
 # 设置页面标题和样式
 st.set_page_config(page_title='2024欧洲国家杯赛程表', layout='wide')
+img_1 = Image.open("image/顶部图@2xv2.png")
+st.image(img_1)
 
 # 读取 CSS 文件内容
 # css_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'styles', 'global.css')
