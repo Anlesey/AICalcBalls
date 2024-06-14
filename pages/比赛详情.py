@@ -70,12 +70,12 @@ with predict_button_container:
     if st.button('开始预测', key=match['match_id'], use_container_width=True):
         scores = get_final_score(match)
         # score_container.clear()
-        # fillout_semi_ana_response(match, container_dic)
         home_score=adjust_score(match['home_score'])
         away_score=adjust_score(match['away_score'])
         scores = [str(home_score), str(away_score)]
         # scores = get_final_score(match)
         score_container.header('  :crossed_swords:  '.join(scores))
+        fillout_semi_ana_response(match, container_dic)
     else:
         score_container.header('???  :crossed_swords:  ???')
 
