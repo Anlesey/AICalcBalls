@@ -3,6 +3,7 @@ import pandas as pd
 import os
 from Utils.components import get_details_card_div
 import sys
+from PIL import Image
 current_path = os.getcwd()
 print(current_path)
 sys.path.append(current_path+'/')
@@ -10,6 +11,8 @@ print(sys.path)
 
 # 设置页面标题和样式
 st.set_page_config(page_title='2024欧洲国家杯赛程表', layout='wide')
+img_0 = Image.open("image/顶部图@2x.png")
+st.image(img_0)
 
 # 读取 CSS 文件内容
 css_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'styles', 'global.css')
@@ -45,3 +48,6 @@ for i in range(len(tabs_list)):
     with tabs_list[i]:
         for match_id, match in dt_df.iterrows():
             get_details_card_div(match)
+
+img_1 = Image.open("image/footer.png")
+st.image(img_1)
