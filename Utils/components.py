@@ -46,7 +46,7 @@ def get_semi_ana_response(country_name_cn):
         with st.expander(choice):
             prompt = "请给出"+country_name_cn+"国家足球队的"+choice
             if st.button("预测", key=country_name_cn+choice, use_container_width=True):
-                st.write_stream(get_baichuan_response_stream(prompt, st))
+                st.write_stream(get_baichuan_response_stream(prompt))
 
 
 
