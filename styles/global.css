@@ -1,0 +1,35 @@
+/* New CSS rule to center elements horizontally */
+[data-testid="column"]{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* If you want the items to stack vertically */
+}
+
+[data-testid="stFullScreenFrame"]{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* If you want the items to stack vertically */
+}
+
+/* title of starting page */
+[data-testid="stHeadingWithActionElements"] {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Image caption */
+/* <div data-testid="stImageCaption" class="st-emotion-cache-ltfnpr e115fcil0" style="width: 75px;"> */
+[data-testid="stImageCaption"] {
+    width: 100px;
+}
+
+
+
+[data-testid="stHeaderActionElements"] {
+   display: none;
+}
+
