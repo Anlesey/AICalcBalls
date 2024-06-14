@@ -38,18 +38,23 @@ st.page_link("Welcome.py", label="返回赛程表", icon="🏠")
 
 get_details_card_div(match, with_border=False, with_button=False)
 
-tab1, tab2 = st.tabs(["🗃 预测结果", "📈 历史数据"])
-data = np.random.randn(10, 1)
+# tab1, tab2 = st.tabs(["🗃 预测结果", "📈 历史数据"])
+# data = np.random.randn(10, 1)
 
 
 # --------------tab1------------------
-with tab1:
-    get_semi_ana_response(match)
+st.divider()
+st.subheader('预测结果')
+get_semi_ana_response(match)
 
 # --------------tab2------------------
 
-with tab2:
+st.divider()
+st.subheader('历史战绩')
+
+col1, col2 = st.columns(2)
+with col1:
     display_history_battles(home_team, use_data_cnt = 10)
-    tab1.divider()
+with col2:
     display_history_battles(away_team, use_data_cnt = 10)
 
