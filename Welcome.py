@@ -1,7 +1,12 @@
 import streamlit as st
 import pandas as pd
 import os
-from Utils.components import get_details_card_div 
+from Utils.components import get_details_card_div
+import sys
+current_path = os.getcwd()
+print(current_path)
+sys.path.append(current_path+'/')
+print(sys.path)
 
 # 设置页面标题和样式
 st.set_page_config(page_title='2024欧洲国家杯赛程表', layout='wide')

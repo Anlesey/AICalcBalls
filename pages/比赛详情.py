@@ -45,12 +45,14 @@ data = np.random.randn(10, 1)
 # --------------tab1------------------
 with tab1:
     col1, col2 = st.columns(2)
+    date = match['date']
+
     with col1:
         col1.subheader(match['home_team_cn'])
-        get_semi_ana_response(match['home_team_cn'])
+        get_semi_ana_response(date, match['home_team_cn'],match['away_team_cn'])
     with col2:
         col2.subheader(match['away_team_cn'])
-        get_semi_ana_response(match['away_team_cn'])
+        get_semi_ana_response(date, match['away_team_cn'], match['home_team_cn'])
 
 # --------------tab2------------------
 

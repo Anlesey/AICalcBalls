@@ -4,9 +4,14 @@ import pandas as pd
 from openai import OpenAI
 # from dotenv import load_dotenv
 import os
+import Utils.prompt as p
 
 # load_dotenv()
-
+import sys
+current_path = os.getcwd()
+print(current_path)
+sys.path.append(current_path+'/')
+print(sys.path)
 def get_baichuan_response_stream(prompt):
     url = 'https://api.baichuan-ai.com/v1/chat/completions'
     api_key = "sk-4ffc701537f2a62b68c6923ae8e8cbc3"
@@ -48,13 +53,20 @@ def get_baichuan_response_stream(prompt):
 
 
 #  获取“中间路径”的回复并将其展示在前端
-def get_semi_ana_response(country_name_cn):
+#  获取“中间路径”的回复并将其展示在前端
+def get_semi_ana_response(date, country_name_cn, away_name_cn):
     ana_choices = ['历史战绩','球队近况','战术打法','球队阵容','取胜之匙','关键球员']
+    container_list = []
     for choice in ana_choices:
-        with st.expander(choice):
-            prompt = "请给出"+country_name_cn+"国家足球队的"+choice
-            if st.button("预测", key=country_name_cn+choice, use_container_width=True):
-                st.write_stream(get_baichuan_response_stream(prompt))
+        container = st.container(border=True, height=200)
+        with container:
+            st.markdown(f'**{choice}**')
+        container_list.append(container)
+
+    for container in container_list:
+        # prompt = "请给出"+country_name_cn+"国家足球队的"+choice
+        # if st.button("预测", key=country_name_cn+choice, use_container_width=True):
+        container.write_stream(get_baichuan_response_stream(p.generate(date, country_name_cn, away_name_cn, choice)))
 
 
 
