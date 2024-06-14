@@ -63,7 +63,7 @@ away_team_image = os.path.join(project_root, '..', 'image', 'country', f'{match[
 col1, col2 = st.columns(2)
 col1.image(home_team_image, width=75, caption=match['home_team_cn'])
 col2.image(away_team_image, width=75, caption=match['away_team_cn'])
-container_dic = get_semi_ana_response()
+container_dic = get_semi_ana_response(match)
 # col2.subheader(match['away_team_cn'])
 
 with predict_button_container:

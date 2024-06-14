@@ -62,16 +62,20 @@ def get_final_score(match):
 
 
 #  获取“中间路径”的回复并将其展示在前端
-def get_semi_ana_response():
+def get_semi_ana_response(match):
     container_dic = {}
     # 生成container
     for choice in ['历史战绩','战术打法','球队阵容','取胜之匙','关键球员']:
         container_dic[choice] = []
-        for col in st.columns(2):
-            with col:
-                container = st.container(border=True, height=160)
-                container.write(f"**{choice}**")
-                container_dic[choice].append(container)
+        col1, col2 = st.columns(2)
+        with col1:
+            container = st.container(border=True, height=160)
+            container.write(f"**{match['home_team_cn']}-{choice}**")
+            container_dic[choice].append(container)
+        with col2:
+            container = st.container(border=True, height=160)
+            container.write(f"**{match['away_team_cn']}-{choice}**")
+            container_dic[choice].append(container)
     return container_dic
 
 
