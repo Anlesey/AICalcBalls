@@ -54,19 +54,31 @@ def get_baichuan_response_stream(prompt):
 
 #  获取“中间路径”的回复并将其展示在前端
 #  获取“中间路径”的回复并将其展示在前端
-def get_semi_ana_response(date, country_name_cn, away_name_cn):
-    ana_choices = ['历史战绩','球队近况','战术打法','球队阵容','取胜之匙','关键球员']
-    container_list = []
-    for choice in ana_choices:
-        container = st.container(border=True, height=200)
-        with container:
-            st.markdown(f'**{choice}**')
-        container_list.append(container)
+def get_semi_ana_response(match):
 
-    for i in range(len(container_list)):
-        # prompt = "请给出"+country_name_cn+"国家足球队的"+choice
-        # if st.button("预测", key=country_name_cn+ana_choices[i], use_container_width=True):
-            container_list[i].write_stream(get_baichuan_response_stream(p.generate(date, country_name_cn, away_name_cn, ana_choices[i])))
+    col1, col2 = st.columns(2)
+    # date = match['date']
+
+    # with col1:
+    #     col1.subheader(match['home_team_cn'])
+    #     get_semi_ana_response(date, match['home_team_cn'],match['away_team_cn'])
+    # with col2:
+    #     col2.subheader(match['away_team_cn'])
+    #     get_semi_ana_response(date, match['away_team_cn'], match['home_team_cn'])
+    ana_choices = ['历史战绩','球队近况','战术打法','球队阵容','取胜之匙','关键球员']
+
+    with col1:
+        for choice in ana_choices:
+            container = st.container(border=True, height=200)
+            with container:
+                if st.button(choice, key=str(match['match_id'])+match['home_team_cn']+choice, use_container_width=True):
+                    container.write_stream(get_baichuan_response_stream(p.generate(match['date'], match['home_team_cn'], match['away_team_cn'], choice)))
+    with col2:
+        for choice in ana_choices:
+            container = st.container(border=True, height=200)
+            with container:
+                if st.button(choice, key=str(match['match_id'])+match['away_team_cn']+choice, use_container_width=True):
+                    container.write_stream(get_baichuan_response_stream(p.generate(match['date'], match['away_team_cn'], match['home_team_cn'], choice)))
 
 
 
