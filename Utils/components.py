@@ -29,6 +29,7 @@ def get_baichuan_response_stream(prompt):
         ],
         temperature=0.3,
         stream=True,
+        max_tokens=200,
         extra_body={
             "tools": [
             #     {
