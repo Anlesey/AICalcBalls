@@ -80,8 +80,7 @@ def fillout_semi_ana_response(match, container_dic):
             result_list_1 = [x for x in eval(result_str) if x not in result_list]
             st.multiselect(
                 default=result_list_1,
-                label=choice,
-                # disabled=True,
+                label='',
                 options=result_list_1
             )
     
