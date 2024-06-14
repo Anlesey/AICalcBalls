@@ -10,3 +10,22 @@
     align-items: center;
     /* width: 100px; */
 }
+
+
+[title="Clear all"] {
+    display: none;
+  }
+  
+
+[title="Delete"] {
+    display: none;
+  }
+    
+
+[title="open"] {
+    display: none;
+  }
+
+[data-testid="stWidgetLabel"] {
+    display: none;
+  }

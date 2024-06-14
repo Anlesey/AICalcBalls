@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 
-from Utils.components import get_details_card_div, display_history_battles, get_semi_ana_response
+from Utils.components import get_details_card_div, display_history_battles, get_semi_ana_response, fillout_semi_ana_response
 
 # 设置页面标题和样式
 st.set_page_config(page_title='2024欧洲国家杯赛程表', layout='wide')
@@ -36,7 +36,7 @@ away_team = match['away_team']
 
 st.page_link("Welcome.py", label="返回赛程表", icon="🏠")
 
-get_details_card_div(match, with_border=False, with_button=False)
+# get_details_card_div(match, with_border=False, with_button=False)
 
 # tab1, tab2 = st.tabs(["🗃 预测结果", "📈 历史数据"])
 # data = np.random.randn(10, 1)
@@ -44,8 +44,12 @@ get_details_card_div(match, with_border=False, with_button=False)
 
 # --------------tab1------------------
 st.divider()
+
+ana_choices = ['历史战绩','球队近况','战术打法','球队阵容','取胜之匙','关键球员']
+
 st.subheader('预测结果')
-get_semi_ana_response(match)
+container_dic = get_semi_ana_response(ana_choices)
+
 
 # --------------tab2------------------
 
@@ -58,3 +62,7 @@ with col1:
 with col2:
     display_history_battles(away_team, use_data_cnt = 10)
 
+# --------------tab1-fillout-----------------
+
+# 目前 container_dic['历史战绩']=[container1, container2]
+fillout_semi_ana_response(match, container_dic)
