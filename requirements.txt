@@ -1,5 +1,5 @@
 streamlit
+openai
 pandas
 numpy
 openpyxl
-opanai
