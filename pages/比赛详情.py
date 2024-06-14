@@ -3,8 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 from PIL import Image
-
-from Utils.components import get_details_card_div, display_history_battles, get_semi_ana_response, fillout_semi_ana_response
+from Utils.components import display_history_battles, get_semi_ana_response, fillout_semi_ana_response, get_final_score
 
 # 设置页面标题和样式
 st.set_page_config(page_title='2024欧洲国家杯赛程表', layout='wide')
@@ -34,24 +33,47 @@ match_id = int(st.session_state['match_id']) if 'match_id' in st.session_state e
 match = schedule_df[schedule_df['match_id']==match_id].iloc[0]
 home_team = match['home_team']
 away_team = match['away_team']
+container_dic = {}
 
-# --------------------------------
+
+# ---------------比赛信息卡片-----------------
 
 st.page_link("Welcome.py", label="返回赛程表", icon="🏠")
 
-# get_details_card_div(match, with_border=False, with_button=False)
-
-# tab1, tab2 = st.tabs(["🗃 预测结果", "📈 历史数据"])
-# data = np.random.randn(10, 1)
+# 展示比赛信息卡片 - 详情页
+project_root = os.path.dirname(os.path.abspath(__file__))
 
 
-# --------------tab1------------------
+with st.container(border=True):
+    st.write(match["datetime"])
+    col0, col1, score_container, col3, col4 = st.columns(5)
+    col1.header(match['home_team_cn'])
+    score_container.header('???  :crossed_swords:  ???')
+    col3.header(match['away_team_cn'])
+    
+    _, predict_button_container, _ = st.columns(3)
+            
+
+
+# --------------预测结果------------------
 st.divider()
-
-ana_choices = ['历史战绩','球队近况','战术打法','球队阵容','取胜之匙','关键球员']
-
 st.subheader('预测结果')
-container_dic = get_semi_ana_response(ana_choices)
+home_team_image = os.path.join(project_root, '..', 'image', 'country', f'{match["home_team"]}.png')
+away_team_image = os.path.join(project_root, '..', 'image', 'country', f'{match["away_team"]}.png')
+
+col1, col2 = st.columns(2)
+col1.image(home_team_image, width=75, caption=match['home_team_cn'])
+col2.image(away_team_image, width=75, caption=match['away_team_cn'])
+container_dic = get_semi_ana_response()
+# col2.subheader(match['away_team_cn'])
+
+with predict_button_container:
+    if st.button('开始预测', key=match['match_id'], use_container_width=True):
+        scores = get_final_score(match)
+        # score_container.clear()
+        score_container.header('  :crossed_swords:  '.join(scores))
+        # fillout_semi_ana_response(match, container_dic)
+
 
 
 # --------------tab2------------------
@@ -67,5 +89,4 @@ with col2:
 
 # --------------tab1-fillout-----------------
 
-# 目前 container_dic['历史战绩']=[container1, container2]
-fillout_semi_ana_response(match, container_dic)
+# fillout_semi_ana_response(match, container_dic)

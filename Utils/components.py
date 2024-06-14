@@ -21,21 +21,25 @@ def get_baichuan_response_stream(prompt):
         ],
         temperature=0.3,
         stream=True,
-    extra_body={
-        "tools": [{
-            "type": "retrieval",
-            "retrieval": {
-                "kb_ids": [
-                    "kb-wXN95rDS8FneVE1qxczdldko"
-                ]
-            }
-        },{
+        extra_body={
+            "tools": [
+            #     {
+            #     "type": "retrieval",
+            #     "retrieval": {
+            #         "kb_ids": [
+            #             "kb-ty0ozrB7ouXM6NM26nhlkxlH"
+            #         ]
+            #     }
+            # }
+            # ,
+            {
                 "type": "web_search",
                 "web_search": {
                     "enable": True,
                     "search_mode": "performance_first"
                 }
-            }]
+            }
+            ]
         }
     )
 
@@ -43,14 +47,17 @@ def get_baichuan_response_stream(prompt):
         yield chunk.choices[0].delta.content
 
 
+def get_final_score(match):
+    prompt = p.get_target_prompt(match['date'], match['home_team_cn'], match['away_team_cn'])
+    scores = ''.join(get_baichuan_response_stream(prompt)).split(':')
+    return scores
 
 
 #  获取“中间路径”的回复并将其展示在前端
-def get_semi_ana_response(ana_choices):
+def get_semi_ana_response():
     container_dic = {}
-
     # 生成container
-    for choice in ana_choices:
+    for choice in ['历史战绩','战术打法','球队阵容','取胜之匙','关键球员']:
         container_dic[choice] = []
         for col in st.columns(2):
             with col:
@@ -60,11 +67,11 @@ def get_semi_ana_response(ana_choices):
     return container_dic
 
 
+
 def fillout_semi_ana_response(match, container_dic):
-    for choice in ['历史战绩','球队近况','战术打法','球队阵容']:
-        pass
-        # container_dic[choice][0].write_stream(get_baichuan_response_stream(p.generate(match['date'], match['home_team_cn'], match['away_team_cn'], choice)))
-        # container_dic[choice][1].write_stream(get_baichuan_response_stream(p.generate(match['date'], match['away_team_cn'], match['home_team_cn'], choice)))
+    for choice in ['历史战绩','战术打法','球队阵容']:
+        container_dic[choice][0].write_stream(get_baichuan_response_stream(p.generate(match['date'], match['home_team_cn'], match['away_team_cn'], choice)))
+        container_dic[choice][1].write_stream(get_baichuan_response_stream(p.generate(match['date'], match['away_team_cn'], match['home_team_cn'], choice)))
     
     for choice in ['取胜之匙','关键球员']:
         with container_dic[choice][0]:
@@ -89,7 +96,7 @@ def fillout_semi_ana_response(match, container_dic):
 
 
 # 展示比赛信息卡片
-def get_details_card_div(match, with_border=True, with_button=True):
+def get_details_card_div(match, with_border=True):
     project_root = os.path.dirname(os.path.abspath(__file__))
 
     home_team_image = os.path.join(project_root, '..', 'image', 'country', f'{match["home_team"]}.png')
@@ -102,10 +109,11 @@ def get_details_card_div(match, with_border=True, with_button=True):
         col2.write(':crossed_swords:')
         col2.write(' ')
         col3.image(away_team_image, width=75, caption=match['away_team_cn'])
-        if with_button:
-            if st.button('Let me see see!', key=match['match_id'], use_container_width=True):
-                st.session_state['match_id'] = match['match_id']
-                st.switch_page("pages/比赛详情.py")
+        if st.button('Let me see see!', key=match['match_id'], use_container_width=True):
+            st.session_state['match_id'] = match['match_id']
+            st.switch_page("pages/比赛详情.py")
+
+
 
 
 
@@ -116,25 +124,29 @@ def display_history_battles(home_team, use_data_cnt=10, container=st):
     home_team_cn = df_countries[df_countries['team']==home_team]['team_cn'].values[0]
 
     results_final = pd.read_csv('Data/results_final.csv', encoding='latin1')
-    history_battles = results_final[(results_final['home_team']==home_team)|(results_final['away_team']==home_team)]\
+    df = results_final[(results_final['home_team']==home_team)|(results_final['away_team']==home_team)]\
         .dropna(subset=['home_score'])\
         .sort_values(by='date', ascending=False)\
         .head(use_data_cnt)\
         .set_index('date')
-    history_battles = history_battles[['home_team','home_score','away_score','away_team','winner']]
-    history_battles['is_victory'] = history_battles['winner']==home_team
+    
+    df['teams'] = df['home_team']+' - '+df['away_team']
+    df['score'] = df['home_score'].astype(int).astype(str)+' - '+df['away_score'].astype(int).astype(str)
+    df['is_victory'] = df['winner']==home_team
 
-    winning_times = history_battles[history_battles['winner']==home_team].shape[0]
-    draw_times = history_battles[history_battles['winner'].isna()].shape[0]
+    winning_times = df[df['winner']==home_team].shape[0]
+    draw_times = df[df['winner'].isna()].shape[0]
     lose_times = use_data_cnt-winning_times-draw_times
-    history_battles.columns = ['主场队','主场队得分','客场队得分','客场队','胜利队','是否胜利']
+
+    df = df[['tournament','teams','score','is_victory']]
+    df.columns = ['赛事', '主场队 - 客场队','比分','是否胜利']
 
     # display
     # container.subheader(f'{home_team_cn}')
-    col1, col2 = container.columns(2)
+    col1, col2 = container.columns([1,4])
     project_root = os.path.dirname(os.path.abspath(__file__))
     home_team_image = os.path.join(project_root, '..', 'image', 'country', f'{home_team}.png')
     col1.image(home_team_image, width=75, caption=home_team_cn)
     with col2:
         container.metric(label=f"近{use_data_cnt}场比赛胜率", value=f"{winning_times*10}%", delta=f'{winning_times}胜 {draw_times}平 {lose_times}负', delta_color='off')
-    container.dataframe(history_battles, use_container_width = True)
+    container.dataframe(df, use_container_width = True)
