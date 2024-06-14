@@ -70,11 +70,11 @@ def get_semi_ana_response(match):
         col1, col2 = st.columns(2)
         with col1:
             container = st.container(border=True, height=160)
-            container.write(f"**{match['home_team_cn']}-{choice}**")
+            container.write(f"{match['home_team_cn']}-**{choice}**")
             container_dic[choice].append(container)
         with col2:
             container = st.container(border=True, height=160)
-            container.write(f"**{match['away_team_cn']}-{choice}**")
+            container.write(f"{match['away_team_cn']}-**{choice}**")
             container_dic[choice].append(container)
     return container_dic
 
