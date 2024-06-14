@@ -78,7 +78,7 @@ def get_semi_ana_response(match):
             container = st.container(border=True, height=200)
             with container:
                 if st.button(choice, key=str(match['match_id'])+match['away_team_cn']+choice, use_container_width=True):
-                    container.write_stream(get_baichuan_response_stream(p.generate(match['date'], match['home_team_cn'], match['away_team_cn'], choice)))
+                    container.write_stream(get_baichuan_response_stream(p.generate(match['date'], match['away_team_cn'], match['home_team_cn'], choice)))
 
 
 
