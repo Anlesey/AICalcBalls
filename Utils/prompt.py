@@ -6,11 +6,11 @@ from langchain_core.prompts import PromptTemplate
 ana_choices = ['历史战绩','球队近况','战术打法','球队阵容','取胜之匙','关键球员']
 
 template = """\
-2024年欧洲杯足球赛将在德国举行，北京时间{date}，{team_one}队将迎战{team_two}队，你是一位足球数据专家，请{prompt}
+2024年欧洲杯足球赛将在德国举行，北京时间{date}，{team_one}队将迎战{team_two}队，请{prompt}
 """
 
 target_template = """\
-2024年欧洲杯足球赛将在德国举行，北京时间{date}，{team_one}队将迎战{team_two}队，你是一位足球数据专家，请{prompt}
+2024年欧洲杯足球赛将在德国举行，北京时间{date}，{team_one}队将迎战{team_two}队，请{prompt}
 """
 
 def get_prompt(team, choice) -> str:
