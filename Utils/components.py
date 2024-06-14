@@ -9,7 +9,8 @@ import os
 
 def get_baichuan_response_stream(prompt):
     url = 'https://api.baichuan-ai.com/v1/chat/completions'
-    api_key = st.secrets['api_key']
+    api_key = "sk-4ffc701537f2a62b68c6923ae8e8cbc3"
+        # st.secrets)['api_key']
     client = OpenAI(
         api_key=api_key,
         base_url="https://api.baichuan-ai.com/v1/",
