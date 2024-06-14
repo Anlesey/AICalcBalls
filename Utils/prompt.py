@@ -15,7 +15,7 @@ def get_prompt(team, choice) -> str:
     if(choice == ana_choices[0] or choice == ana_choices[1] or choice == ana_choices[2] or choice == ana_choices[3]):
         prompt = f"介绍{team}队的{choice}(150字以内)"
     else:
-        prompt = f"给出{team}队的5个{choice}(仅需给出关键词)"
+        prompt = f"给出{team}队的5个{choice}(仅需给出主题词)"
     return prompt
 
 

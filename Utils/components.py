@@ -63,10 +63,10 @@ def get_semi_ana_response(date, country_name_cn, away_name_cn):
             st.markdown(f'**{choice}**')
         container_list.append(container)
 
-    for container in container_list:
+    for i in range(len(container_list)):
         # prompt = "请给出"+country_name_cn+"国家足球队的"+choice
         # if st.button("预测", key=country_name_cn+choice, use_container_width=True):
-        container.write_stream(get_baichuan_response_stream(p.generate(date, country_name_cn, away_name_cn, choice)))
+        container_list[i].write_stream(get_baichuan_response_stream(p.generate(date, country_name_cn, away_name_cn, ana_choices[i])))
 
 
 
