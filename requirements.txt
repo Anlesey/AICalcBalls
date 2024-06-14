@@ -4,4 +4,3 @@ pandas
 numpy
 openpyxl
 langchain_core
-PIL
