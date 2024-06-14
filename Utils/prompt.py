@@ -7,7 +7,7 @@ from langchain_core.prompts import PromptTemplate
 ana_choices = ['历史战绩','球队近况','战术打法','球队阵容','取胜之匙','关键球员']
 
 template = """\
-2024年欧洲杯足球赛将在德国举行，北京时间2024年{month}月{day}日，{team_one}队将迎战{team_two}队，你是一位足球数据专家，请{prompt}
+2024年欧洲杯足球赛将在德国举行，北京时间{date}，{team_one}队将迎战{team_two}队，你是一位足球数据专家，请{prompt}
 """
 
 def get_prompt(team, choice) -> str:
@@ -19,13 +19,12 @@ def get_prompt(team, choice) -> str:
     return prompt
 
 
-def generate(team1, team2, choice):
+def generate(date, team1, team2, choice):
     prompt = PromptTemplate.from_template(template)
     prompt_key = get_prompt(team1, choice)
     print(prompt_key)
     query = prompt.format(
-        month = "",
-        day = "",
+        date = date,
         team_one = team1,
         team_two = team2,
         prompt = prompt_key
@@ -34,5 +33,5 @@ def generate(team1, team2, choice):
     return query
 
 if __name__ == '__main__':
-    prompt = generate("德国", "苏格兰", "取胜之匙")
+    prompt = generate("222","德国", "苏格兰", "取胜之匙")
     print(prompt)
