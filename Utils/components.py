@@ -22,8 +22,15 @@ def get_baichuan_response_stream(prompt):
         ],
         temperature=0.3,
         stream=True,
-        extra_body={
-            "tools": [{
+    extra_body={
+        "tools": [{
+            "type": "retrieval",
+            "retrieval": {
+                "kb_ids": [
+                    "kb-wXN95rDS8FneVE1qxczdldko"
+                ]
+            }
+        },{
                 "type": "web_search",
                 "web_search": {
                     "enable": True,
@@ -71,10 +78,7 @@ def get_details_card_div(match, with_border=True, with_button=True):
 
         if with_button:
             if st.button('Let me see see!', key=match['match_id'], use_container_width=True):
-                # st.query_params.clear()
-                # Initialization
                 st.session_state['match_id'] = match['match_id']
-                # st.query_params['match_id'] = match['match_id']
                 st.switch_page("pages/比赛详情.py")
 
 

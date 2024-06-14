@@ -26,8 +26,7 @@ schedule_df['status'] = '未开赛'
 
 # 获取 match_id 参数
 # st.session_state['match_id']
-match_id = int(st.session_state['match_id']) # if 'match_id' in st.query_params else 1
-st.write(match_id)
+match_id = int(st.session_state['match_id']) if 'match_id' in st.query_params else 1
 
 match = schedule_df[schedule_df['match_id']==match_id].iloc[0]
 home_team = match['home_team']
