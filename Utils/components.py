@@ -72,42 +72,19 @@ def fillout_semi_ana_response(match, container_dic):
             result_list = eval(result_str)
             st.multiselect(
                 default=result_list,
-                label=f'',
-                # disabled=True,
+                label='',
                 options=result_list
             )
-        # with container_dic[choice][1]:
-        #     result_str = ''.join(get_baichuan_response_stream(p.generate(match['date'], match['away_team_cn'], match['home_team_cn'], choice)))
-        #     result_list = eval(result_str)
-        #     st.multiselect(
-        #         default=result_list,
-        #         label=choice,
-        #         # disabled=True,
-        #         options=result_list
-        #     )
+        with container_dic[choice][1]:
+            result_str = ''.join(get_baichuan_response_stream(p.generate(match['date'], match['away_team_cn'], match['home_team_cn'], choice)))
+            result_list_1 = [x for x in eval(result_str) if x not in result_list]
+            st.multiselect(
+                default=result_list_1,
+                label=choice,
+                # disabled=True,
+                options=result_list_1
+            )
     
-    # project_root = os.path.dirname(os.path.abspath(__file__))
-    # col1, col2 = st.columns(2)
-
-    # with col1:
-    #     # col1.subheader(match['home_team_cn'])
-    #     home_team_image = os.path.join(project_root, '..', 'image', 'country', f'{match["home_team"]}.png')
-    #     col1.image(home_team_image, width=75, caption=match['home_team_cn'])
-    #     for choice in ana_choices:
-    #         container = st.container(border=True, height=200)
-    #         with container:
-    #             if st.button(choice, key=str(match['match_id'])+match['home_team_cn']+choice, use_container_width=True):
-    #                 container.write_stream(get_baichuan_response_stream(p.generate(match['date'], match['home_team_cn'], match['away_team_cn'], choice)))
-    # with col2:
-    #     # col2.subheader(match['away_team_cn'])
-    #     home_team_image = os.path.join(project_root, '..', 'image', 'country', f'{match["away_team"]}.png')
-    #     col2.image(home_team_image, width=75, caption=match['away_team_cn'])
-    #     for choice in ana_choices:
-    #         container = st.container(border=True, height=200)
-    #         with container:
-    #             if st.button(choice, key=str(match['match_id'])+match['away_team_cn']+choice, use_container_width=True):
-    #                 container.write_stream(get_baichuan_response_stream(p.generate(match['date'], match['away_team_cn'], match['home_team_cn'], choice)))
-
 
 
 
