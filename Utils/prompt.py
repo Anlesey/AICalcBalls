@@ -16,7 +16,7 @@ target_template = """\
 def get_prompt(team, choice) -> str:
     prompt = ""
     if(choice == ana_choices[0] or choice == ana_choices[1] or choice == ana_choices[2] or choice == ana_choices[3]):
-        prompt = f"介绍{team}队的{choice}。用语幽默、简洁，使用emoji、markdown格式标注重点，100字以内。"
+        prompt = f"介绍{team}队的{choice}。用语幽默、简洁，使用emoji、markdown格式标注重点，要求用词精炼、重点突出、100字以内。"
     else:
         prompt = f"给出{team}队的5个{choice}，使用中文。请直接输出关键词，不需要其他信息，输出格式为严格的python列表格式"
     return prompt
