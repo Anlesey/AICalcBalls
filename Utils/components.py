@@ -7,9 +7,9 @@ import os
 
 load_dotenv()
 
-def get_baichuan_response_stream(prompt, container=None):
+def get_baichuan_response_stream(prompt):
     url = 'https://api.baichuan-ai.com/v1/chat/completions'
-    api_key = os.getenv('API_KEY')
+    api_key = st.secrets['api_key']
     client = OpenAI(
         api_key=api_key,
         base_url="https://api.baichuan-ai.com/v1/",
