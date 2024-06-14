@@ -14,9 +14,9 @@ def adjust_score(score):
     return score
 
 def get_baichuan_response_stream(prompt):
-    url = 'https://api.baichuan-ai.com/v1/chat/completions'
+    # url = 'https://api.baichuan-ai.com/v1/chat/completions'
     # api_key = "sk-d884e53a0b131388bbac3bbb45adc146"
-    st.secrets['api_key']
+    api_key = st.secrets['api_key']
     client = OpenAI(
         api_key=api_key,
         base_url="https://api.baichuan-ai.com/v1/",
@@ -117,7 +117,7 @@ def get_details_card_div(match, with_border=True):
         col2.write(':crossed_swords:')
         col2.write(' ')
         col3.image(away_team_image, width=75, caption=match['away_team_cn'])
-        if st.button('Let me see see!', key=match['match_id'], use_container_width=True):
+        if st.button('赛事预测', key=match['match_id'], use_container_width=True):
             st.session_state['match_id'] = match['match_id']
             st.switch_page("pages/比赛详情.py")
 
