@@ -4,11 +4,19 @@ import pandas as pd
 from openai import OpenAI
 import os
 import Utils.prompt as p
+import random
+
+def adjust_score(score):
+    if random.random() < 0.1:  # 10%的概率
+        change = random.choice([-1, 1])
+        if score + change >= 0:
+            score += change
+    return score
 
 def get_baichuan_response_stream(prompt):
     url = 'https://api.baichuan-ai.com/v1/chat/completions'
-    api_key = "sk-d884e53a0b131388bbac3bbb45adc146"
-        # st.secrets)['api_key']
+    # api_key = "sk-d884e53a0b131388bbac3bbb45adc146"
+    st.secrets['api_key']
     client = OpenAI(
         api_key=api_key,
         base_url="https://api.baichuan-ai.com/v1/",

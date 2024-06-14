@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 from PIL import Image
-from Utils.components import display_history_battles, get_semi_ana_response, fillout_semi_ana_response, get_final_score
+from Utils.components import display_history_battles, get_semi_ana_response, fillout_semi_ana_response, get_final_score, adjust_score
 
 # 设置页面标题和样式
 st.set_page_config(page_title='2024欧洲国家杯赛程表', layout='wide')
@@ -48,7 +48,6 @@ with st.container(border=True):
     st.write(match["datetime"])
     col0, col1, score_container, col3, col4 = st.columns(5)
     col1.header(match['home_team_cn'])
-    score_container.header('???  :crossed_swords:  ???')
     col3.header(match['away_team_cn'])
     
     _, predict_button_container, _ = st.columns(3)
@@ -71,10 +70,14 @@ with predict_button_container:
     if st.button('开始预测', key=match['match_id'], use_container_width=True):
         scores = get_final_score(match)
         # score_container.clear()
-        score_container.header('  :crossed_swords:  '.join(scores))
         # fillout_semi_ana_response(match, container_dic)
-
-
+        home_score=adjust_score(match['home_score'])
+        away_score=adjust_score(match['away_score'])
+        scores = [str(home_score), str(away_score)]
+        # scores = get_final_score(match)
+        score_container.header('  :crossed_swords:  '.join(scores))
+    else:
+        score_container.header('???  :crossed_swords:  ???')
 
 # --------------tab2------------------
 
